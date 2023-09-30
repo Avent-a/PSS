@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Работа с изображениями </title>
+  <script type="text/javascript">
+    // Инициализация объекта для хранения информации о изображениях
+    var imageLibrary = {
+      "Первое": "images1.gif",
+      "Второе": "images2.gif",
+      "Третье": "images3.gif",
+      "Четвертое": "images4.gif"
+    };
+
+    // Функция для изменения отображаемого изображения при выборе из списка
+    function changeImage(selectedValue) {
+      var selectedImageSrc = imageLibrary[selectedValue];
+      document.getElementById("thum").src = selectedImageSrc;
+    }
+  </script>
+</head>
+<body>
+  <h2> Объект Image </h2>
+  <img src="images1.gif" id="thum" height="90" width="120">
+  <form name="f">
+    <select name="load" onchange="changeImage(this.value)">
+      <option value="Первое">Первое</option>
+      <option value="Второе">Второе</option>
+      <option value="Третье">Третье</option>
+      <option value="Четвертое">Четвертое</option>
+    </select>
+  </form>
+</body>
+</html>
