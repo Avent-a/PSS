@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню</title>
+    <style>
+        /* Общие стили для меню */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: #333;
+            display: flex;
+        }
+
+        ul li {
+            position: relative;
+        }
+
+        ul li a {
+            display: block;
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        /* Стили для первого уровня меню */
+        ul > li {
+            position: relative;
+        }
+
+        /* Стили для второго уровня меню */
+        ul ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #333;
+            min-width: 200px;
+            flex-direction: row; /* Горизонтальное расположение элементов второго уровня */
+        }
+
+        ul ul li {
+            padding: 10px;
+            display: inline-block; /* Элементы второго уровня в строку */
+        }
+
+        /* При наведении на первый уровень показываем второй уровень */
+        ul li:hover > ul {
+            display: flex;
+        }
+
+        /* Стили для активных (выбранных) пунктов меню */
+        ul li.active a {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a>
+            <ul>
+                <li><a href="#">2.1</a></li>
+                <li><a href="#">2.2</a></li>
+                <li><a href="#">2.3</a></li>
+            </ul>
+        </li>
+        <li><a href="#">3</a>
+            <ul>
+                <li><a href="#">3.1</a></li>
+                <li><a href="#">3.2</a></li>
+            </ul>
+        </li>
+        <li><a href="#">4</a></li>
+    </ul>
+</body>
+</html>
