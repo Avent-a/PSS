@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div class="wrapper">
+    <button class="btn">Click</button>
+    <button class="btnTwo">Click 2</button>
+    <button class="btnThree">Click 3</button>
+</div>
+  
+</body>
+<script>
+    const button = document.querySelector('.btn');
+    const buttonTwo = document.querySelector('.btnTwo');
+    const buttonThree = document.querySelector('.btnThree');
+    function handleClick() {
+        console.log('click 1');
+    }
+    function handleClick2() {
+        console.log('click 2');
+    }
+    function handleClick3() {
+        console.log('click 3');
+    }
+    button.addEventListener('click', handleClick);
+    buttonTwo.addEventListener('click', handleClick2);
+    buttonThree.addEventListener('click', handleClick3);
+
+</script>
+</html>

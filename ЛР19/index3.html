@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div class="wrapper">
+    <button class="btn">Click</button>
+    <button class="btnTwo">Click 2</button>
+    <button class="btnThree">Click 3</button>
+</div>
+<div>
+    <p class="c1"></p>
+</div>
+  
+</body>
+<script>
+    let count1 = 0;
+    const button = document.querySelector('.btn');
+    const buttonTwo = document.querySelector('.btnTwo');
+    const buttonThree = document.querySelector('.btnThree');
+    function handleClick() {
+        count1++;
+        document.querySelector(".c1").innerText = "click: " + count1 
+    }
+    button.addEventListener('click', handleClick);
+    buttonTwo.addEventListener('click', handleClick);
+    buttonThree.addEventListener('click', handleClick);
+
+</script>
+</html>

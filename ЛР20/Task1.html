@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимация фигур, падающих как снег с изменением цвета</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: blue;
+            border-radius: 0;
+            transform: rotate(0deg);
+            transition: all 1s;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Создаем массив фигур
+        var shapes = [
+            { borderRadius: '0', transform: 'rotate(0deg)', color: 'blue' }, // Квадрат
+            { borderRadius: '0', transform: 'rotate(45deg)', color: 'red' }, // Треугольник
+            { borderRadius: '50%', transform: 'rotate(45deg)', color: 'green' }, // Круг
+            { borderRadius: '0', transform: 'rotate(0deg)', color: 'orange' }, // Прямоугольник
+        ];
+
+        // Функция для создания и анимации фигур
+        function createShape() {
+            var shape = document.createElement('div');
+            shape.className = 'shape';
+            shape.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(shape);
+
+            var currentShapeIndex = Math.floor(Math.random() * shapes.length);
+            var currentShape = shapes[currentShapeIndex];
+
+            // Начальные значения стилей
+            shape.style.borderRadius = currentShape.borderRadius;
+            shape.style.transform = currentShape.transform;
+            shape.style.backgroundColor = currentShape.color;
+
+            // Анимация движения фигуры вниз
+            function animateShape() {
+                var top = 0;
+                var interval = setInterval(function () {
+                    shape.style.top = top + 'px';
+                    top += 2; // Скорость падения
+
+                    if (top > window.innerHeight) {
+                        clearInterval(interval);
+                        shape.remove();
+                    }
+                }, 10);
+
+                // Анимация изменения формы и цвета
+                setTimeout(function () {
+                    var nextShapeIndex = (currentShapeIndex + 1) % shapes.length;
+                    var nextShape = shapes[nextShapeIndex];
+                    shape.style.borderRadius = nextShape.borderRadius;
+                    shape.style.transform = nextShape.transform;
+                    shape.style.backgroundColor = nextShape.color;
+                    currentShapeIndex = nextShapeIndex;
+                }, 500); // Через 0.5 секунды
+            }
+
+            animateShape();
+        }
+
+        // Запуск создания фигур
+        setInterval(createShape, 200); // Создавать новую фигуру каждые 200 миллисекунд
+    </script>
+</body>
+</html>
