@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <script>
+        function CheckForm(UserForm) {
+            var is_ok = true;
+
+            if (UserForm.name.value == '') {
+                is_ok = false;
+                alert("Введите ваше имя!!");
+                UserForm.name.focus();
+            }
+
+            if (UserForm.Comment.value == '') {
+                is_ok = false;
+                alert("Введите ваши комментарии!");
+                UserForm.Comment.focus();
+            }
+
+            // Проверка правильности заполнения E-mail адреса
+            var email = UserForm.email.value;
+            if (email == '') {
+                is_ok = false;
+                alert("Введите ваш e-mail!");
+                UserForm.email.focus();
+            } else if (!validateEmail(email)) {
+                is_ok = false;
+                alert("Введите корректный e-mail адрес!");
+                UserForm.email.focus();
+            }
+
+            return is_ok;
+        }
+
+        function validateEmail(email) {
+            // Простая проверка наличия символа '@' и точки после него
+            var regex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+            return regex.test(email);
+        }
+    </script>
+</head>
+
+<body>
+    <form onsubmit="return CheckForm(this)">
+        Введите имя: &nbsp;<input type="text" name="name" size="20"><br>
+        Ваш E-mail: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="email" size="20"><br>
+        Комментарий:<textarea rows="3" name="Comment" cols="20"></textarea>
+        <br>
+        <input value="Отправить" type="submit"><br>
+        <input type="reset">
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        window.onload = function() {
+            var text = 'ahb acb aeb aeeb adcb axeb';
+            var pattern = /a.b/g;
+
+            var matches = text.match(pattern);
+
+            for (var i = 0; i < matches.length; i++) {
+                document.getElementById('output').innerHTML += matches[i] + '<br>';
+            }
+        }
+    </script>
+</head>
+<body>
+    <p>Соответствующие строки:</p>
+    <div id="output"></div>
+</body>
+</html>

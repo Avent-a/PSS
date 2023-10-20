@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        var s = 0;
+
+        function moveLeftToRight() {
+            if (s != 4) {
+                var leftSelect = document.getElementById("left");
+                var rightSelect = document.getElementById("right");
+                var selectedOption = leftSelect.options[leftSelect.selectedIndex];
+
+                if (selectedOption) {
+                    rightSelect.options[s].text = selectedOption.text;
+                    selectedOption.style.display = "none";
+                    s = s + 1;
+                }
+            } else {
+                alert("Maximum of four items reached");
+            }
+        }
+
+        function moveRightToLeft() {
+            if (s > 0) {
+                var leftSelect = document.getElementById("left");
+                var rightSelect = document.getElementById("right");
+                s = s - 1;
+                leftSelect.options[leftSelect.length] = new Option(rightSelect.options[s].text);
+                rightSelect.options[s].text = '';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <form name="f">
+        <table border=1>
+            <tr>
+                <td>
+                    <select id="left" size=6>
+                        <option value="Литература" selected> Литература
+                        <option value="Математика"> Математика
+                        <option value="Геометрия"> Геометрия
+                        <option value="Физика"> Физика
+                        <option value="Физкультура"> Физкультура
+                        <option value="История"> История
+                    </select>
+                </td>
+                <td>
+                    <Input type="button" value="Move ->" OnClick="moveLeftToRight()"><br><br>
+                    <Input type="button" value="<- Move" OnClick="moveRightToLeft()">
+                </td>
+                <td>
+                    <select id="right" size=6 style="width:123">
+                        <option value='v1'></option>
+                        <option value='v2'></option>
+                        <option value='v3'></option>
+                        <option value='v4'></option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>
