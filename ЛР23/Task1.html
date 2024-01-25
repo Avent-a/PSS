@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Example</title>
+</head>
+
+<body>
+
+    <script>
+        let student = {
+            name: 'John',
+            age: 30,
+            isAdmin: false,
+            courses: ['html', 'css', 'js'],
+            wife: null
+        };
+
+        let user = {
+            sayHi() { // будет пропущено
+                alert("Hello");
+            },
+            [Symbol("id")]: 123, // также будет пропущено
+            something: undefined // как и это - пропущено
+        };
+
+        let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+        let meetup = JSON.parse(str, function (key, value) {
+            if (key == 'date') return new Date(value);
+            return value;
+        });
+        alert(meetup.date.getDate()); // 30 - теперь работает!
+
+        // Кстати, это работает и для вложенных объектов:
+        let schedule = `{
+          "meetups": [
+            {"title":"Conference","date":"2017-11-30T12:00:00.000Z"},
+            {"title":"Birthday","date":"2017-04-18T12:00:00.000Z"}  
+          ]}`;
+        schedule = JSON.parse(schedule, function (key, value) {
+            if (key == 'date') return new Date(value);
+            return value;
+        });
+        alert(schedule.meetups[1].date.getDate()); // 18 - отлично!
+
+        alert(JSON.stringify(user)); // {} (пустой объект)
+
+        // Преобразование объекта в JSON-строку
+        let json = JSON.stringify(student);
+        alert(typeof json); // мы получили строку!
+        alert(json);
+
+        // Обратное преобразование JSON-строки в объект
+        let parsedStudent = JSON.parse(json);
+        alert(typeof parsedStudent); // мы получили объект!
+        alert(parsedStudent.name); // John
+        alert(parsedStudent.age); // 30
+        alert(parsedStudent.isAdmin); // false
+        alert(parsedStudent.courses); // ['html', 'css', 'js']
+        alert(parsedStudent.wife); // null
+
+        // Обратное преобразование JSON-строки в объект
+        let parsedUser = JSON.parse(json);
+        alert(JSON.stringify(parsedUser)); // {} (пустой объект)
+        alert(JSON.stringify(1)); // 1
+        alert(JSON.stringify('test')); // "test"
+        alert(JSON.stringify(true)); // true
+        alert(JSON.stringify([1, 2, 3])); // [1,2,3]
+
+    </script>
+
+</body>
+
+</html>
