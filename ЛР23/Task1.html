@@ -4,12 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Example</title>
+    <title>Combined JSON Display Example</title>
 </head>
 
 <body>
+    <h1>Сппасибо что дошли до конца</h1>
+    <p>
+
+     <h5>1. В JavaScript для работы с регулярными выражениями используется объект RegExp. Пример: `/pattern/g`, где `pattern` - шаблон, а `g` - флаг глобального поиска.</h5>
+     <h5>2. JSON расшифровывается как JavaScript Object Notation. Это формат обмена данными, основанный на синтаксисе объектов в JavaScript. Используется для передачи данных между сервером и клиентом.</h5>
+     <h5>3. В JavaScript сценарий - это набор инструкций, выполняемых поочередно. В контексте веб-разработки это может быть, например, скрипт, который изменяет поведение веб-страницы при взаимодействии пользователя.</h5>   
+
+    <div id="user-info"></div>
+    <div id="student-info"></div>
+    <div id="meetup-info"></div>
+    <div id="parsed-json"></div>
 
     <script>
+        // JSON-данные из JavaScript файла
+        let user1 = {
+            name: "John",
+            age: 30,
+            toString() {
+                return `{name: "${this.name}", age: ${this.age}}`;
+            }
+        };
+
+        alert(user1); // {name: "John", age: 30}
+
         let student = {
             name: 'John',
             age: 30,
@@ -17,6 +39,22 @@
             courses: ['html', 'css', 'js'],
             wife: null
         };
+        let json = JSON.stringify(student);
+        alert(typeof json); // мы получили строку!
+        alert(json);
+        /* выведет объект в формате JSON:{
+        "name": "John",
+        "age": 30,
+        "isAdmin": false,
+        "courses": ["html", "css", "js"],
+        "wife": null}*/
+
+        // число в JSON остаётся числом
+        alert(JSON.stringify(1)); // 1
+        // строка в JSON по-прежнему остаётся строкой, но в двойных кавычках
+        alert(JSON.stringify('test')); // "test"
+        alert(JSON.stringify(true)); // true
+        alert(JSON.stringify([1, 2, 3])); // [1,2,3]
 
         let user = {
             sayHi() { // будет пропущено
@@ -26,51 +64,146 @@
             something: undefined // как и это - пропущено
         };
 
-        let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
-        let meetup = JSON.parse(str, function (key, value) {
-            if (key == 'date') return new Date(value);
-            return value;
-        });
-        alert(meetup.date.getDate()); // 30 - теперь работает!
-
-        // Кстати, это работает и для вложенных объектов:
-        let schedule = `{
-          "meetups": [
-            {"title":"Conference","date":"2017-11-30T12:00:00.000Z"},
-            {"title":"Birthday","date":"2017-04-18T12:00:00.000Z"}  
-          ]}`;
-        schedule = JSON.parse(schedule, function (key, value) {
-            if (key == 'date') return new Date(value);
-            return value;
-        });
-        alert(schedule.meetups[1].date.getDate()); // 18 - отлично!
-
         alert(JSON.stringify(user)); // {} (пустой объект)
 
-        // Преобразование объекта в JSON-строку
-        let json = JSON.stringify(student);
-        alert(typeof json); // мы получили строку!
-        alert(json);
+        let meetup = {
+            title: "Conference",
+            room: {
+                number: 23,
+                participants: ["john", "ann"]
+            }
+        };
+        alert(JSON.stringify(meetup));
+        /* вся структура преобразована в строку:{
+          "title":"Conference",
+          "room":{"number":23,"participants":["john","ann"]}} */
 
-        // Обратное преобразование JSON-строки в объект
-        let parsedStudent = JSON.parse(json);
-        alert(typeof parsedStudent); // мы получили объект!
-        alert(parsedStudent.name); // John
-        alert(parsedStudent.age); // 30
-        alert(parsedStudent.isAdmin); // false
-        alert(parsedStudent.courses); // ['html', 'css', 'js']
-        alert(parsedStudent.wife); // null
+        let room1 = {
+            number: 23
+        };
+        let meetup1 = {
+            title: "Conference",
+            participants: ["john", "ann"],
+            place: room1 // meetup1 ссылается на room1
+        };
+        room1.occupiedBy = meetup1; // room1 ссылается на meetup1
+        alert(JSON.stringify(meetup1, ['title', 'participants', 'place', 'name', 'number']));
+        /*{
+          "title":"Conference",
+          "participants":["john","ann"],
+          "place":{"number":23}} */
 
-        // Обратное преобразование JSON-строки в объект
-        let parsedUser = JSON.parse(json);
-        alert(JSON.stringify(parsedUser)); // {} (пустой объект)
-        alert(JSON.stringify(1)); // 1
-        alert(JSON.stringify('test')); // "test"
-        alert(JSON.stringify(true)); // true
-        alert(JSON.stringify([1, 2, 3])); // [1,2,3]
+        let room2 = {
+            number: 23
+        };
+        let meetup2 = {
+            title: "Conference",
+            participants: [{ name: "John" }, { name: "Alice" }],
+            place: room2 // meetup2 ссылается на room2
+        };
+        room2.occupiedBy = meetup2; // room2 ссылается на meetup2
+        alert(JSON.stringify(meetup2, function replacer(key, value) {
+            alert(`${key}: ${value}`);
+            return (key == 'occupiedBy') ? undefined : value;
+        }));
+        /* пары ключ:значение, которые приходят в replacer:
+        title:        Conference
+        participants: [object Object],[object Object]
+        0:            [object Object]
+        name:         John
+        1:            [object Object]
+        name:         Alice
+        place:        [object Object]
+        number:       23 */
 
+        let user2 = {
+            name: "John",
+            age: 25,
+            roles: {
+                isAdmin: false,
+                isEditor: true
+            }
+        };
+        alert(JSON.stringify(user2, null, 2));
+        /* отступ в 2 пробела:{
+          "name": "John",
+          "age": 25,
+          "roles": {
+            "isAdmin": false,
+            "isEditor": true  }} */
+        /* для JSON.stringify(user, null, 4) результат содержит больше отступов:{
+          "name": "John",
+          "age": 25,
+          "roles": {
+            "isAdmin": false,
+            "isEditor": true  }} */
+
+        let room3 = {
+            number: 23
+        };
+        let meetup3 = {
+            title: "Conference",
+            date: new Date(Date.UTC(2017, 0, 1)),
+            room: room3
+        };
+        alert(JSON.stringify(meetup3));
+        /*{
+          "title":"Conference",
+          "date":"2017-01-01T00:00:00.000Z",
+          "room":{"number":23}} */
+
+        let room4 = {
+            number: 23,
+            toJSON() {
+                return this.number;
+            }
+        };
+        let meetup4 = {
+            title: "Conference",
+            room: room4
+        };
+        alert(JSON.stringify(room4)); // 23
+        alert(JSON.stringify(meetup4));
+        /*{
+          "title":"Conference",
+          "room":23} */
+
+        // строковый массив
+        let numbers = "[0, 1, 2, 3]";
+        numbers = JSON.parse(numbers);
+        alert(numbers[1]); // 1
+
+        let user3 = '{ "name": "John", "age": 35, "isAdmin": false, "friends": [0,1,2,3] }';
+        user3 = JSON.parse(user3);
+        alert(user3.friends[1]); // 1
+
+        let json1 = `{
+      "name": "John",
+      "surname": "Smith",
+      "isAdmin": false,
+      "birthday": "2000-03-03T00:00:00.000Z",
+      "friends": [0, 1, 2, 3]
+    }`;
+        let user4 = JSON.parse(json1);
+        alert(user4.friends[1]); // 1
+
+        let str1 = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+        let meetup5 = JSON.parse(str1, function (key, value) {
+            if (key == 'date') return new Date(value);
+            return value;
+        });
+        alert(meetup5.date.getDate()); // 30 - теперь работает!
+
+        let schedule1 = `{
+      "meetups": [
+        {"title":"Conference","date":"2017-11-30T12:00:00.000Z"},
+        {"title":"Birthday","date":"2017-04-18T12:00:00.000Z"} ]}`;
+        let scheduleObj = JSON.parse(schedule1, function (key, value) {
+            if (key == 'date') return new Date(value);
+            return value;
+        });
+        alert(scheduleObj.meetups[1].date.getDate()); // 18 - отлично!
     </script>
-
 </body>
 
 </html>
